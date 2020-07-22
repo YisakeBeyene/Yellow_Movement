@@ -1,0 +1,109 @@
+<!DOCTYPE html>
+<html lang="en"
+	  xmlns="http://www.w3.org/1999/xhtml"
+	  xmlns:th="http://www.thymeleaf.org" xmlns:sec="http://www.w3.org/1999/xhtml">
+
+<head>
+
+	<meta charset="utf-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+	<meta name="description" content="">
+	<meta name="author" content="">
+
+	<title th:text="${loggedInUser.name}"></title>
+
+	<!-- Bootstrap core CSS -->
+	<link href="/css/bootstrap.min.css" rel="stylesheet">
+	<link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.5.0/css/all.css"
+		  integrity="sha384-B4dIYHKNBt8Bc12p+WXckhzcICo0wtJAoU8YZTY5qE0Id1GSseTk6S+L3BlXeVIU" crossorigin="anonymous">
+	<!-- <link href="https://fonts.googleapis.com/css?family=Yatra+One" rel="stylesheet"> -->
+
+	<link href="https://fonts.googleapis.com/css?family=Nunito" rel="stylesheet">
+
+	<!-- Custom styles for this template -->
+	<link href="/css/custom.css" rel="stylesheet">
+
+</head>
+
+<body>
+
+<!-- Navigation -->
+<nav class="navbar navbar-expand-lg navbar-dark bg-warning fixed-top shadow-lg">
+	<div class="container">
+
+		<a class="navbar-brand" th:href="@{/}">YELLOW MOVEMENT</a>
+		<button class="navbar-toggler hover-shadow" type="button" data-toggle="collapse" data-target="#navbarResponsive"
+				aria-controls="navbarResponsive" aria-expanded="false" aria-label="Toggle navigation">
+			<span class="navbar-toggler-icon"></span>
+		</button>
+		<div class="collapse navbar-collapse" id="navbarResponsive">
+			<ul class="navbar-nav ml-auto">
+				<li sec:authorize="isAuthenticated()" class="nav-item active">
+					<a class="nav-link" th:href="@{/home}">Home
+						<span class="sr-only">(current)</span>
+					</a>
+				</li>
+				<!--<li sec:authorize="isAuthenticated()" class="nav-item">-->
+					<!--<a class="nav-link" href="#">Blog</a>-->
+				<!--</li>-->
+
+
+				<li sec:authorize="isAuthenticated()" class="nav-item dropdown ml-2" style="margin-top: -4%; margin-bottom: -3%">
+					<a id="dropDownImg" href="#" class="dropdown-toggle nav-link d-inline-block" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+						<img class="shadow-sm rounded-circle d-inline-block border border-light"
+							 th:src="@{/img/people.jpg}" width="38px" height="38px" alt="Card image cap" >
+					</a>
+					<div class="dropdown-menu rounded-0" aria-labelledby="dropDownImg">
+						<a class="dropdown-item" th:href="@{/profile}"><i class="fas fa-user d-inline-block mr-3"> </i>  My Profile</a>
+						<a class="dropdown-item" th:href="@{/logout}"><i class="fas fa-sign-out-alt d-inline-block mr-3"> </i>  Sign out</a>
+					</div>
+				</li>
+
+
+			</ul>
+		</div>
+	</div>
+</nav>
+
+
+		<br><br>
+		<div class="container" style="text-align:center;width:290px;">
+			<div class="jumbotron " style="padding-bottom:1px;margin-top:-26px;padding-top:10px;">
+  				<div class="container">
+    				<p class="lead" style="color:orange;">My Profile</p>
+ 			 	</div>
+			</div>
+		</div>
+		
+		<div class="container shadow-lg" style="border:solid 1px orange;padding:20px;padding-bottom:30px;">
+			<div class="row">
+				<div class="col-lg-6" style="margin-left:90px;">
+					<img alt="profile" src="img/people.jpg" class="shadow-lg" style="border:solid 1px orange;"><br><br>
+					<button type="submit" class="btn btn-warning btn-md" style="margin-left:80px;">Insert Image</button>	
+				</div>
+				<div class="col-lg-6" style="margin-top:10px;margin-left:-150px;">
+					<div class="container shadow-lg" style="width:260px;padding:20px;">
+						<p th:text="${loggedInUser.name}">Abebe Kebede</p>
+						<p th:text="${loggedInUser.email}">abebe.kebede@gmail.com</p>
+						<p>Roles:</p>
+						<div th:each="role: ${loggedInUser.roles}">
+							<p th:text="${role.role}"></p>
+						</div>
+						<p th:text="'Sex:' + ${loggedInUser.sex}"></p>
+						<p th:text="'Joined at' + ${loggedInUser.dateString}"></p>
+
+					</div>
+					<button type="submit" class="btn btn-warning btn-md shadow-lg" style="margin-left:281px;margin-top:32px;">Edit Profile</button>
+				</div>
+			</div>
+						
+		</div>
+		<br>
+		<footer class="py-5 bg-warning">
+    		<div class="container">
+        		<p class="m-0 text-center text-white">Copyright &copy; Your Website 2018</p>
+    		</div>
+    		<!-- /.container -->
+		</footer>
+	</body>
+</html>

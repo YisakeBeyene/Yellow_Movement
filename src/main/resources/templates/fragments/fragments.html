@@ -1,0 +1,123 @@
+<!DOCTYPE html>
+<html lang="en"
+      xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:sec="http://www.w3.org/1999/xhtml" xmlns:th="http://www.thymeleaf.org">
+
+
+<!-- Head -->
+<head th:fragment="head">
+
+    <meta charset="utf-8">
+    <meta content="width=device-width, initial-scale=1, shrink-to-fit=no" name="viewport">
+    <meta content="" name="description">
+    <meta content="" name="author">
+
+    <title th:text="${title}"></title>
+
+    <!-- Bootstrap core CSS -->
+    <link rel="stylesheet" th:href="@{/css/bootstrap.min.css}"/>
+    <!-- <link href="https://fonts.googleapis.com/css?family=Yatra+One" rel="stylesheet"> -->
+
+    <!-- Fonts and icons -->
+    <link crossorigin="anonymous" th:href="@{https://use.fontawesome.com/releases/v5.5.0/css/all.css}"
+          integrity="sha384-B4dIYHKNBt8Bc12p+WXckhzcICo0wtJAoU8YZTY5qE0Id1GSseTk6S+L3BlXeVIU" rel="stylesheet">
+    <link rel="stylesheet" th:href="@{https://fonts.googleapis.com/css?family=Nunito}">
+
+    <!-- Custom styles for this Page -->
+    <link rel="stylesheet" th:href="@{/css/custom.css}"/>
+
+</head>
+
+
+<!-- Navigation -->
+<nav class="navbar navbar-expand-lg navbar-dark bg-warning fixed-top shadow-lg" th:fragment="nav-bar">
+    <div class="container">
+        <a class="navbar-brand" th:href="@{/}">YELLOW MOVEMENT</a>
+        <button aria-controls="navbarResponsive" aria-expanded="false" aria-label="Toggle navigation"
+                class="navbar-toggler hover-shadow"
+                data-target="#navbarResponsive" data-toggle="collapse" type="button">
+            <span class="navbar-toggler-icon"></span>
+        </button>
+        <div class="collapse navbar-collapse" id="navbarResponsive">
+            <ul class="navbar-nav ml-auto">
+
+
+                <!--Navbar Items if Logged In-->
+                <li class="nav-item" sec:authorize="isAuthenticated()" th:classappend="${title.split(' ')[0]} == 'Home'?'active':''">
+                    <a class="nav-link" th:href="@{/home}">Posts
+                    </a>
+                </li>
+                <li class="nav-item" sec:authorize="isAuthenticated()" th:classappend="${title.split(' ')[0]} == 'Blogs'?'active':''">
+                    <a class="nav-link" th:href="@{/blog}">Blogs
+                    </a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" th:href="@{/#info}">About
+                    </a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" th:href="@{/#contact}">Contact
+                    </a>
+                </li>
+
+                <li class="nav-item ml-2 pl-2 border border-light border-top-0 border-bottom-0 border-right-0 text-white"
+                    sec:authorize="isAuthenticated()">
+                    <span class="nav-link text-light" th:text="${loggedInUser.name}"> </span>
+                </li>
+                <li class="nav-item dropdown" sec:authorize="isAuthenticated()"
+                    style="margin-top: -8px; margin-bottom: -5px">
+                    <a aria-expanded="false" aria-haspopup="true" class="dropdown-toggle nav-link d-inline-block"
+                       data-toggle="dropdown"
+                       href="#" id="dropDownImg">
+                        <img alt="Card image cap"
+                             class="shadow-sm rounded-circle d-inline-block border border-light" height="38px"
+                             th:src="@{'/uploads/profile_pictures/'+${loggedInUser.profilePic}}"
+                             width="38px">
+                    </a>
+                    <div aria-labelledby="dropDownImg" class="dropdown-menu rounded-0">
+                        <a class="dropdown-item" th:href="@{/profile}"><i
+                                class="fas fa-user-alt d-inline-block mr-2"> </i> My Profile</a>
+                        <a class="dropdown-item" th:href="@{/logout}"><i
+                                class="fas fa-sign-out-alt d-inline-block mr-2"> </i> Sign out</a>
+                    </div>
+                </li>
+
+                <!--Navbar Items if not Logged In-->
+                <li class="nav-item" sec:authorize="isAnonymous()">
+                    <a class="nav-link text-white" id="createAccountModalOpener" th:href="@{/createAccount}">Sign up</a>
+                </li>
+                <li class="nav-item ml-2 pl-2 border border-light border-top-0 border-bottom-0 border-right-0 text-white"
+                    sec:authorize="isAnonymous()">
+                    <a class="nav-link text-white" id="loginModalOpener" th:href="@{/login}">Sign
+                        in</a>
+                </li>
+
+            </ul>
+        </div>
+    </div>
+</nav>
+
+
+<!-- Footer -->
+<footer class="py-5 bg-warning" th:fragment="footer">
+    <div class="container">
+        <p class="m-0 text-center text-white">Copyright &copy; Your Website 2018</p>
+    </div>
+</footer>
+
+
+<!-- Script Importd -->
+<div th:fragment="js-imports">
+    <!-- Bootstrap core JavaScript -->
+    <script th:src="@{/js/jquery.min.js}"></script>
+    <script th:src="@{/js/jquery.validate.min.js}"></script>
+    <script th:src="@{/js/bootstrap.bundle.min.js}"></script>
+
+    <script th:src="@{/js/modal.js}"></script>
+    <script th:src="@{/js/animate.js}"></script>
+    <script th:src="@{/js/validation.js}"></script>
+
+    <script th:src="@{/js/popper.min.js}"></script>
+    <script th:src="@{/js/holder.min.js}"></script>
+</div>
+</html>

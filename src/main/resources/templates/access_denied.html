@@ -1,0 +1,41 @@
+<!DOCTYPE html>
+<html lang="en"
+      xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:th="http://www.thymeleaf.org">
+
+<head th:replace="fragments/fragments :: head"></head>
+
+<body>
+
+<!--<nav th:replace="fragments/fragments :: nav-bar"></nav>-->
+
+
+<!-- Page Content -->
+<div class="container content-holder">
+
+    <h1 class="mt-4 mb-3">403
+        <small>Forbidden</small>
+    </h1>
+
+    <div class="jumbotron">
+        <h1 class="display-1">403</h1>
+        <p>Apologies, but you are not allowed here. Please get back on track.</p>
+        <br>
+        <a class="btn btn-link rounded-0 text-dark" th:href="@{/}"><i class="fas fa-arrow-left d-inline-block mr-2"></i>Back to Front Page</a>
+
+    </div>
+    <!-- /.jumbotron -->
+</div>
+<!-- /.container -->
+
+
+<!-- Footer -->
+<footer th:replace="fragments/fragments :: footer"></footer>
+
+<!-- JavaScript Imports -->
+<div th:replace="fragments/fragments :: js-imports"></div>
+
+
+</body>
+
+</html>

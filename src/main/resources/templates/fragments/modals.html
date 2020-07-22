@@ -1,0 +1,144 @@
+<!DOCTYPE html>
+<html lang="en"
+      xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:th="http://www.thymeleaf.org">
+
+
+<!-- Login Modal -->
+<div aria-hidden="true" aria-labelledby="exampleModalCenterTitle" class="modal fade"
+     data-show="true" id="loginModal" role="dialog" tabindex="-1"
+     th:fragment="login-modal"
+     th:if="${(param.performing != null) and (param.performing[0] == 'login')}">
+
+    <div class="modal-dialog modal-dialog-centered" role="document">
+        <div class="modal-content rounded-0">
+            <form class="container p-3" id="loginForm" method="post" th:action="@{/login}">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="loginModalTitle">Sign In</h5>
+                    <button aria-label="Close" class="close" data-dismiss="modal" type="button">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                </div>
+                <div class="modal-body">
+                    <div class="alert alert-warning rounded-0 shadow-sm" style="text-align: center"
+                         th:if="${param.error}">
+                        Invalid username and password.
+                    </div>
+                    <div class="form-group">
+                        <label for="loginEmail">Email</label>
+                        <input class="form-control rounded-0 shadow-sm" id="loginEmail" name="loginEmail"
+                               placeholder="example@example.com" type="email">
+                    </div>
+                    <div class="form-group">
+                        <label for="loginPassword">Password</label>
+                        <input class="form-control rounded-0 shadow-sm" id="loginPassword" name="loginPassword"
+                               placeholder="Password" type="password">
+                    </div>
+                </div>
+                <div class="modal-footer">
+                    <button class="btn btn-outline-secondary hover-shadow rounded-0 hover-shadow" data-dismiss="modal"
+                            type="button">Cancel
+                    </button>
+                    <button class="btn btn-outline-warning hover-shadow rounded-0 hover-shadow" id="loginSubmit"
+                            type="submit">Sign in
+                    </button>
+                    <input th:name="${_csrf.parameterName}" th:value="${_csrf.token}" type="hidden"/>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>
+
+
+<!-- Create Account Modal -->
+<div aria-hidden="true" aria-labelledby="exampleModalCenterTitle"
+     class="modal fade" data-show="true" id="createAccountModal" role="dialog" tabindex="-1"
+     th:fragment="createAccount-modal"
+     th:if="${(param.performing != null) and (param.performing[0] == 'createAccount')}">
+
+    <div class="modal-dialog modal-dialog-centered" role="document">
+        <div class="modal-content rounded-0">
+            <form class="container p-3" id="createAccountForm" method="post" th:action="@{/createAccount}"
+                  th:object="${account}">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="createAccountModalTitle">Sign up - Create Your New Account Here</h5>
+                    <button aria-label="Close" class="close" data-dismiss="modal" type="button">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                </div>
+                <div class="modal-body">
+                    <div class="alert alert-warning rounded-0 shadow-sm" style="text-align: center"
+                         th:if="${param.error}">
+                        Invalid Inputs to Create Account.
+                    </div>
+                    <div class="form-group">
+                        <label for="signUpName">Name</label>
+                        <input class="form-control rounded-0 shadow-sm" id="signUpName" name="signUpName"
+                               placeholder="John Doe"
+                               th:field="*{name}"
+                               type="text">
+                        <span class="text-danger font-weight-light d-block"
+                              th:errors="*{name}"
+                              th:if="${#fields.hasErrors('name')}">Name Error</span>
+
+                    </div>
+                    <div class="form-group">
+                        <label for="signUpEmail">Email</label>
+                        <input class="form-control rounded-0 shadow-sm" id="signUpEmail" name="signUpEmail"
+                               placeholder="example@example.com"
+                               th:field="*{email}"
+                               type="email">
+                        <span class="text-danger font-weight-light d-block"
+                              th:errors="*{email}"
+                              th:if="${#fields.hasErrors('email')}">Email Error</span>
+                    </div>
+                    <div class="form-group">
+                        <label for="signUpSex">Sex</label>
+                        <select class="form-control rounded-0 shadow-sm" id="signUpSex" name="signUpSex"
+                                th:field="*{sex}">
+                            <option value="female">Female</option>
+                            <option value="male">Male</option>
+                        </select>
+                        <span class="text-danger font-weight-light d-block"
+                              th:errors="*{sex}"
+                              th:if="${#fields.hasErrors('sex')}">Sex Error
+                          </span>
+                    </div>
+                    <div class="form-group">
+                        <label for="signUpPassword">Password</label>
+                        <input class="form-control rounded-0 shadow-sm" id="signUpPassword" name="signUpPassword"
+                               placeholder="Password"
+                               th:field="*{password}"
+                               type="password">
+                        <span class="text-danger font-weight-light d-block"
+                              th:errors="*{password}"
+                              th:if="${#fields.hasErrors('password')}">Password Error
+                        </span>
+                    </div>
+                    <div class="form-group">
+                        <label for="signUpConfirmPassword">Confirm Password</label>
+                        <input class="form-control rounded-0 shadow-sm" id="signUpConfirmPassword"
+                               name="signUpConfirmPassword"
+                               placeholder="Password"
+                               type="password">
+                        <!-- <span class="text-danger font-weight-light"
+                                th:if="${#fields.hasErrors('signUpConfirmPassword')}"
+                                th:errors="*{signUpConfirmPassword}">Confirm Password Error
+                          </span> -->
+                    </div>
+                </div>
+                <div class="modal-footer">
+                    <button class="btn btn-outline-secondary hover-shadow rounded-0 hover-shadow" data-dismiss="modal"
+                            type="button">Cancel
+                    </button>
+                    <button class="btn btn-outline-warning hover-shadow rounded-0 hover-shadow" type="submit">Sign up
+                    </button>
+                    <input th:name="${_csrf.parameterName}" th:value="${_csrf.token}" type="hidden"/>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>
+
+
+</html>

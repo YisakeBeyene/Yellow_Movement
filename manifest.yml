@@ -1,0 +1,6 @@
+applications:
+  - name: yellow-movement-site
+    buildpack: java_buildpack
+    path: target/YellowMovementSite-0.0.1-SNAPSHOT.jar
+    services:
+      - yellow-movement-mysql-instance

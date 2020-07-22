@@ -1,0 +1,335 @@
+<!DOCTYPE html>
+<html lang="en"
+      xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:sec="http://www.w3.org/1999/xhtml" xmlns:th="http://www.thymeleaf.org">
+
+<head th:replace="fragments/fragments :: head"></head>
+
+<body>
+
+<nav th:replace="fragments/fragments :: nav-bar"></nav>
+
+
+<!-- Page Content -->
+<div class="container-fluid shadow-lg text-center content-holder" style="height: 920px;">
+
+
+    <div class="row">
+
+        <div class="col-md-12" id="profileBackgroundImg"
+             th:style="'background-image: url('+@{/img/cover-photo.jpeg}+'); background-size: cover; height: 30vh'">
+
+
+        </div>
+
+    </div>
+    <!-- /.row -->
+
+    <div class="row">
+
+
+        <div class="col-md-12 text-center">
+
+            <div class="container col-md-6" id="profileViewRegion" th:if="${param.performing == null}">
+
+                <div class="row">
+                    <div class="col-md-12">
+                        <div class="d-inline-block border border-warning rounded-circle shadow-lg mb-4"
+                             th:style="'background-image:url(\'' + @{'/uploads/profile_pictures/'+${loggedInUser.profilePic}} + '\');width: 300px; height: 300px; background-size: cover; background-position: center; border:5px; margin-top: -150px;'"></div>
+                    </div>
+                </div>
+
+                <div class="row">
+                    <div class="col-md-12">
+                        <h1 class="display-4 text-dark" th:text="${loggedInUser.name}">
+                            User's Name
+                        </h1>
+                    </div>
+                </div>
+
+                <div class="row">
+                    <div class="col-md-12">
+                        <p class="lead" th:text="${loggedInUser.email}">
+                            email@email.com
+                        </p>
+                    </div>
+                </div>
+
+                <div class="row">
+                    <div class="col-md-12">
+                        <p class="font-italic text-muted" sec:authorize="hasAuthority('BLOGGER')">
+                            Blogger
+                        </p>
+                        <p class="font-italic text-muted" sec:authorize="hasAuthority('ADMIN')">
+                            Admin
+                        </p>
+                    </div>
+                </div>
+
+                <hr/>
+
+                <div class="row">
+                    <div class="col-md-12">
+                        <p class="lead">
+                            Sex: <span class="font-italic" th:text="${loggedInUser.sex}">User Sex</span>
+                        </p>
+                    </div>
+                </div>
+
+                <div class="row">
+                    <div class="col-md-12">
+                        <p class="lead text-muted">
+                            Here since <span class="font-italic" th:text="${loggedInUser.dateString()}">Date Joined</span>
+                        </p>
+                    </div>
+                </div>
+
+                <hr>
+                <div class="row">
+                    <div class="col-md">
+                        <a class="btn btn-link text-muted" th:href="@{/profile/edit}"><i
+                                class="fas fa-user-edit d-inline-block mr-2"></i> Edit Profile
+                        </a>
+                    </div>
+
+                    <!--<div class="col-md">-->
+                        <!--<a class="btn btn-link text-muted" data-target="#changePasswordModal" data-toggle="modal"-->
+                           <!--th:href="@{#}"><i-->
+                                <!--class="fas fa-key d-inline-block mr-2"> </i> Change Password-->
+                        <!--</a>-->
+                    <!--</div>-->
+                </div>
+
+            </div>
+
+
+            <div class="container col-md-4"
+                 id="profileEditRegion"
+                 th:if="${(param.performing != null) and ((param.performing[0] == 'edit') or (param.performing[0] == 'uploadImg')) }">
+                <form method="POST" th:action="@{profile/edit}" th:object="${loggedInUser}">
+
+                    <div class="row">
+                        <div class="col-md-12">
+                            <div class="d-inline-block border border-warning rounded-circle shadow-lg mb-4"
+                                 th:style="'background-image:url(\'' + @{'/uploads/profile_pictures/'+${loggedInUser.profilePic}} + '\');width: 300px; height: 300px; background-size: cover; background-position: center; border:5px; margin-top: -150px;'">
+                                <a class="d-inline-block text-white bg-warning display-4 rounded-circle"
+                                   style="width: 300px; height: 300px; opacity: 0.4; line-height: 300px; color: #FFF;"
+                                   th:href="@{/profile/uploadImg}"><i
+                                        class="fas fa-pencil-alt d-inline-block mr-2"> </i></a>
+                            </div>
+
+
+                        </div>
+                    </div>
+
+                    <div class="row">
+
+                        <div class="col-md-12 form-group">
+
+                            <div class="form-group text-center">
+                                <label class="lead" for="accountName">Name: </label>
+                                <input class="form-control rounded-0 d-inline-block w-auto font-weight-bold shadow-sm ml-3" id="accountName" name="name" placeholder="Name"
+                                       th:field="*{name}"
+                                       type="text">
+                                <span class="text-danger font-weight-light d-block"
+                                      th:errors="*{name}"
+                                      th:if="${#fields.hasErrors('name')}">Name Error</span>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="row">
+
+                        <div class="col-md-12 form-group">
+
+                            <div class="form-group text-center">
+                                <label class="lead" for="accountEmail">Email: </label>
+                                <input class="form-control rounded-0 d-inline-block w-auto font-weight-bold shadow-sm ml-3" id="accountEmail" name="email" placeholder="Name"
+                                       th:field="*{email}"
+                                       type="email">
+                                <span class="text-danger font-weight-light d-block"
+                                      th:errors="*{email}"
+                                      th:if="${#fields.hasErrors('email')}">Name Error</span>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="row">
+                        <div class="col-md-12" sec:authorize="!hasAuthority('BLOGGER') && !hasAuthority('ADMIN')">
+                            <a class="btn btn-link text-muted" th:href="@{/profile/beBlogger}"><i
+                                    class="fas fa-plus d-inline-block mr-2"> </i> Be a Blogger
+                            </a>
+                        </div>
+                        <div class="col-md-12" sec:authorize="hasAuthority('BLOGGER')">
+                            <a class="btn btn-link text-muted" th:href="@{/profile/unbeBlogger}"><i
+                                    class="fas fa-minus d-inline-block mr-2"> </i> Remove Blogging Rights
+                            </a>
+                        </div>
+                    </div>
+
+                    <hr/>
+
+                    <div class="row">
+                        <div class="col-md-12 form-group">
+                            <label class="lead" for="sex">Sex: </label>
+                            <select class="form-control rounded-0 d-inline-block w-auto font-weight-bold shadow-sm mx-3" id="sex"
+                                    name="signUpSex"
+                                    th:field="*{sex}">
+                                <option value="female">Female</option>
+                                <option value="male">Male</option>
+                            </select>
+                            <span class="text-danger font-weight-light d-block"
+                                  th:errors="*{sex}"
+                                  th:if="${#fields.hasErrors('sex')}">Sex Error
+                          </span>
+                        </div>
+                    </div>
+
+
+                    <hr>
+                    <div class="row px-md-3">
+                        <div class="col-md m-2">
+                            <a class="btn btn-outline-secondary hover-shadow rounded-0 hover-shadow"
+                               th:href="@{/profile}">
+                                Cancel
+                            </a>
+                        </div>
+                        <div class="col-md m-2">
+                            <button class="btn btn-outline-warning hover-shadow rounded-0 hover-shadow" type="submit">
+                                Apply
+                            </button>
+                            <input th:name="${_csrf.parameterName}" th:value="${_csrf.token}" type="hidden"/>
+                        </div>
+                    </div>
+
+                </form>
+
+            </div>
+
+        </div>
+
+    </div>
+    <!-- /.row -->
+
+</div>
+<!-- /.container -->
+
+
+<div aria-hidden="true" aria-labelledby="exampleModalCenterTitle" class="modal fade" data-show="true" id="changePasswordModal"
+     role="dialog"
+     tabindex="-1">
+    <div class="modal-dialog modal-dialog-centered" role="document">
+        <div class="modal-content rounded-0">
+            <form class="container p-3" id="changePasswordForm" method="post" th:action="@{/changePassword}">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="changePasswordModalTitle">Change Password</h5>
+                    <button aria-label="Close" class="close" data-dismiss="modal" type="button">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                </div>
+                <div class="modal-body">
+
+                    <div class="alert alert-warning rounded-0 shadow-sm" style="text-align: center"
+                         th:if="${param.error}">
+                        Incorrect password.
+                    </div>
+                    <div class="form-group my-4">
+                        <input class="form-control rounded-0 shadow-sm" id="oldPassword" name="oldPassword"
+                               placeholder="Old Password" type="password">
+                    </div>
+                    <hr>
+                    <div class="form-group my-4">
+                        <input class="form-control rounded-0 shadow-sm" id="newPassword" name="newPassword"
+                               placeholder="New Password" type="password">
+                    </div>
+                    <div class="form-group my-4">
+                        <input class="form-control rounded-0 shadow-sm" id="confirmPassword" name="confirmPassword"
+                               placeholder="Confirm Password" type="password">
+                    </div>
+
+                </div>
+                <div class="modal-footer">
+                    <button class="btn btn-outline-secondary hover-shadow rounded-0 hover-shadow" data-dismiss="modal"
+                            type="button">Cancel
+                    </button>
+                    <button class="btn btn-outline-warning hover-shadow rounded-0 hover-shadow" id="loginSubmit"
+                            type="submit">Sign in
+                    </button>
+                    <input th:name="${_csrf.parameterName}" th:value="${_csrf.token}" type="hidden"/>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>
+
+
+<div aria-hidden="true" aria-labelledby="exampleModalCenterTitle" class="modal fade"
+     data-show="true" id="uploadImgModal" role="dialog"
+     tabindex="-1"
+     th:if="${(param.performing != null) and (param.performing[0] == 'uploadImg')}">
+    <div class="modal-dialog modal-dialog-centered" role="document">
+        <div class="modal-content rounded-0">
+            <form class="container p-3" enctype="multipart/form-data" id="uploadImgForm" method="POST"
+                  th:action="@{/profile/uploadImg}">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="uploadImgModalTitle">Edit Profile Image</h5>
+                    <button aria-label="Close" class="close" data-dismiss="modal" type="button">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                </div>
+                <div class="modal-body text-center">
+
+                    <div class="alert alert-warning rounded-0 shadow-sm" style="text-align: center"
+                         th:if="${param.error}">
+                        Could not Upload .
+                    </div>
+                    <img id="previewImage" class="form-group my-4 shadow d-inline-block w-100"
+                         th:src="@{'/uploads/profile_pictures/'+${loggedInUser.profilePic}}"/>
+
+                    <div class="form-group mb-3">
+
+                        <div class="row">
+                            <div class="col">
+                                <label class="btn btn-warning text-white rounded-0 hover-shadow form-control">
+                                    Browse <input type="file" name="file" onchange="readPreviewURL(this)" id="file" hidden>
+                                </label>
+                            </div>
+                            <!--<div class="col">-->
+                                <!--<a class="btn btn-outline-danger hover-shadow rounded-0 hover-shadow" id="removeImg"-->
+                                   <!--th:href="@{#}">Remove Image-->
+                                <!--</a>-->
+                            <!--</div>-->
+                        </div>
+
+
+                    </div>
+
+
+                </div>
+                <div class="modal-footer">
+
+                    <a class="btn btn-outline-secondary hover-shadow rounded-0 hover-shadow" th:href="@{/profile/edit}">
+                        Cancel
+                    </a>
+                    <button class="btn btn-outline-warning hover-shadow rounded-0 hover-shadow" id="uploadImgSubmit"
+                            type="submit">Upload
+                    </button>
+                    <input th:name="${_csrf.parameterName}" th:value="${_csrf.token}" type="hidden"/>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>
+
+
+
+<!-- Footer -->
+<footer th:replace="fragments/fragments :: footer"></footer>
+
+<!-- JavaScript Imports -->
+<div th:replace="fragments/fragments :: js-imports"></div>
+
+
+</body>
+
+</html>

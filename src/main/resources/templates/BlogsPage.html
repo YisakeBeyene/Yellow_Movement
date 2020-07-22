@@ -1,0 +1,131 @@
+<!DOCTYPE html>
+<html lang="en"
+      xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:sec="http://www.w3.org/1999/xhtml" xmlns:th="http://www.thymeleaf.org">
+
+<head th:replace="fragments/fragments :: head"></head>
+
+<body>
+
+<nav th:replace="fragments/fragments :: nav-bar"></nav>
+
+
+<!-- Page Content -->
+<div class="container content-holder">
+    <!-- <h1 class="my-4">Welcome <span th:text="${loggedInUser}"></span> </h1> -->
+    <div class="row">
+
+        <!-- Blog Entries Column -->
+        <div class="col-md-8">
+
+            <h1 class="my-4">Blogger Posts
+                <small class="ml-3 text-warning h4" th:text="${param.keyword}">All Blogs</small>
+
+                <a class="btn btn-warning d-inline-block hover-shadow float-md-right rounded-0 text-white" sec:authorize="hasAuthority('BLOGGER')" th:href="@{/blog/new}">Add New<i class="fas fa-plus d-inline-block ml-2"></i></a>
+            </h1>
+
+            <div th:if="${dataList.isEmpty()}">
+                <hr/>
+                <p class="lead mb-0 d-inline-block">
+                    Found Nothing
+                </p>
+                <a class="ml-3" th:href="@{/blog}">show all...</a>
+            </div>
+            <!-- News Post -->
+            <div class="card mb-4 rounded-0 hover-shadow" th:each="blog:${dataList}">
+                <div class="card-header">
+                    <img class="shadow-sm rounded-circle d-inline-block border border-light"
+                         th:src="@{'/uploads/profile_pictures/'+${blog.blogger.profilePic}}" width="38" height="38" alt="404">
+                    <span class="text-capitalize text-dark font-weight-bold text-capitalize m-2" th:text="${blog.blogger.name}">category</span>
+                </div>
+                <img alt="Card image cap" class="card-img-top rounded-0" th:if="${blog.image} != null" th:src="@{'/uploads/blog-images/'+${blog.image} }">
+                <div class="card-body">
+                    <h2 class="card-title" th:text="${blog.title}">Post Title</h2>
+                    <p class="card-text" th:text="${blog.content.split('\n')[0]}">Lorem ipsum dolor sit amet, consectetur adipisicing
+                        elit. Reiciendis aliquid atque, nulla? Quos cum ex quis soluta, a laboriosam. Dicta expedita
+                        corporis animi vero voluptate voluptatibus possimus, veniam magni quis!</p>
+                    <a class="btn btn-outline-warning rounded-0 hover-shadow" th:href="@{'/blog/' + ${blog.blogId}}">Read
+                        More
+                        &rarr;</a>
+                    <a class="btn btn-outline-danger rounded-0 hover-shadow ml-2"
+                       sec:authorize="hasAuthority('BLOGGER')" th:href="@{'/blog/delete/' + ${blog.blogId}}"
+                       th:if="${blog.blogger.userId} == ${loggedInUser.userId}">Remove
+                    </a>
+                </div>
+                <div class="card-footer text-muted" th:text="${blog.dateString()}">
+                    January 1, 2017
+                </div>
+            </div>
+
+
+            <!-- Pagination -->
+            <ul class="pagination justify-content-center mb-4 rounded-0" th:if="${paginate} != 'no'">
+                <li class="page-item rounded-0 shadow-sm" th:each="i : ${#numbers.sequence(0,(dataList.totalPages)-1)}">
+                    <a class="page-link" th:href="@{/blog(page=${i})}" th:text="${i + 1}" th:classappend="${currentPage}==${i}?'bg-warning text-white':'text-warning'"></a>
+                </li>
+            </ul>
+
+        </div>
+
+        <!-- Sidebar Widgets Column -->
+        <div class="col-md-4">
+            <br><br><br>
+            <!-- Search Widget -->
+            <div class="card my-4 rounded-0 shadow-sm">
+                <h5 class="card-header">Search</h5>
+                <div class="card-body">
+                    <form method="get" th:action="@{/blog/category}">
+                        <div class="input-group shadow-sm">
+                            <input class="form-control  rounded-0" id="searchBar" name="keyword" placeholder="Search for..."
+                                   type="text">
+                            <span class="input-group-btn">
+                            <button class="btn btn-warning text-light rounded-0" type="submit">Go!</button>
+                        </span>
+                        </div>
+                    </form>
+                </div>
+            </div>
+
+            <!-- Categories Widget -->
+            <!--<div class="card my-4 rounded-0 shadow-sm">-->
+                <!--<h5 class="card-header">Categories</h5>-->
+                <!--<div class="card-body">-->
+
+                    <!--<div class="row p-1" th:each="category:${categoriesList}">-->
+                        <!--<div class="col-lg-6 py-1">-->
+                            <!--<a class="text-warning" th:href="@{'/blog/category?keyword=' + ${category}}"-->
+                               <!--th:text="${category}">Web Design</a>-->
+                        <!--</div>-->
+
+                    <!--</div>-->
+                <!--</div>-->
+            <!--</div>-->
+
+
+            <!-- Side Widget -->
+            <!-- <div class="card my-4">
+                <h5 class="card-header">Side Widget</h5>
+                <div class="card-body">
+                  You can put anything you want inside of these side widgets. They are easy to use, and feature the new Bootstrap 4 card containers!
+                </div>
+              </div> -->
+
+        </div>
+
+    </div>
+    <!-- /.row -->
+
+</div>
+<!-- /.container -->
+
+
+<!-- Footer -->
+<footer th:replace="fragments/fragments :: footer"></footer>
+
+<!-- JavaScript Imports -->
+<div th:replace="fragments/fragments :: js-imports"></div>
+
+
+</body>
+
+</html>

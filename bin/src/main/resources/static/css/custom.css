@@ -1,0 +1,75 @@
+/*!
+ * Start Bootstrap - Blog Home (https://startbootstrap.com/template-overviews/blog-home)
+ * Copyright 2013-2017 Start Bootstrap
+ * Licensed under MIT (https://github.com/BlackrockDigital/startbootstrap-blog-home/blob/master/LICENSE)
+ */
+
+body {
+    padding-top: 54px;
+    font-family: 'Nunito', sans-serif;
+}
+
+.carousel-item {
+    height: 95vh;
+    min-height: 300px;
+    background: no-repeat center center scroll;
+    -webkit-background-size: cover;
+    -moz-background-size: cover;
+    -o-background-size: cover;
+    background-size: cover;
+    background-attachment: fixed;
+}
+
+.btn-outline-warning:hover, .bg-warning dropdown-item:hover {
+    color: #f8f9fa !important;
+}
+
+input[type="name"]:focus, input[type="text"]:focus, input[type="password"]:focus, input[type="datetime"]:focus, input[type="datetime-local"]:focus, input[type="date"]:focus, input[type="month"]:focus, input[type="time"]:focus, input[type="week"]:focus, input[type="number"]:focus, input[type="email"]:focus, input[type="url"]:focus, input[type="search"]:focus, input[type="tel"]:focus, input[type="color"]:focus, .uneditable-input:focus, textarea:focus {
+    border-color: #ffc107;
+    box-shadow: 0 1px 1px rgba(0, 0, 0, 0.075) inset, 0 0 5px #ffc107;
+    outline: 0 none;
+}
+
+.contact-icon {
+    display: block;
+    font-size: 75px;
+    line-height: 150px;
+    height: 150px;
+    width: 150px;
+}
+
+#dropImg{
+    margin-left: -50% !important;
+}
+
+.navbar, .dropdown-menu{
+    opacity: 0.95;
+}
+
+.hover-shadow {
+    box-shadow: 0 0.125rem 0.25rem rgba(0, 0, 0, 0.075);
+}
+
+.hover-shadow:hover {
+    box-shadow: 0 0.5rem 1rem rgba(0, 0, 0, 0.15);
+}
+
+.font-yatara {
+    /* font-family: 'Yatra One', cursive; */
+
+}
+
+img.profile-pic {
+    width: 2.5rem;
+    height: 2.5rem;
+}
+
+@media (min-width: 992px) {
+    body {
+        padding-top: 56px;
+    }
+
+    #dropImg{
+        margin-left: 0% !important;
+    }
+}

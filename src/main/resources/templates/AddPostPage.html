@@ -1,0 +1,111 @@
+<!DOCTYPE html>
+<html lang="en"
+      xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:th="http://www.thymeleaf.org">
+
+<head th:replace="fragments/fragments :: head"></head>
+
+<body>
+
+<nav th:replace="fragments/fragments :: nav-bar"></nav>
+
+
+<!-- Page Content -->
+<div class="container content-holder">
+
+
+        <br/>
+        <br/>
+        <h4>Post New News</h4>
+        <hr />
+        <form th:action="@{/post/new}" th:object="${newPost}" method="POST" enctype="multipart/form-data">
+
+            <div class="row">
+                <div class="col-md-8">
+
+                    <div class="form-group col-md-12">
+                        <label class="form-check-label col-md-2" for="title">Title: </label>
+                        <div class="col-md-10">
+                            <input class="form-control rounded-0 shadow-sm col-md-12" id="title" name="title" placeholder="Title"
+                                   th:field="*{title}"
+                                   type="text">
+                            <span class="text-danger"
+                                  th:errors="*{title}"
+                                  th:if="${#fields.hasErrors('title')}">Title Error</span>
+                        </div>
+
+                    </div>
+
+
+                    <div class="form-group col-md-12">
+                        <label class="form-check-label col-md-2" for="category">Category: </label>
+                        <div class="col-md-10">
+                            <input class="form-control rounded-0 shadow-sm col-md-12" id="category" name="category" placeholder="Category"
+                                   th:field="*{category}"
+                                   type="text">
+                            <span class="text-danger"
+                                  th:errors="*{category}"
+                                  th:if="${#fields.hasErrors('category')}">Category Error</span>
+                        </div>
+
+                    </div>
+
+                    <div class="form-group col-md-12">
+                        <label class="form-check-label col-md-2" for="content">Content: </label>
+                        <div class="col-md-10">
+                            <textarea class="form-control rounded-0 shadow-sm col-md-12" id="content" name="content" placeholder="Content"
+                                   th:field="*{content}"
+                                   type="text" rows = "8">
+                            </textarea>
+                            <span class="text-danger"
+                                  th:errors="*{content}"
+                                  th:if="${#fields.hasErrors('content')}">Content Error</span>
+                        </div>
+
+                    </div>
+
+
+                </div>
+                <div class="col-md-4">
+
+                    <h1>Upload an Image</h1>
+                    <div class="form-group col py-2">
+                        <img class="d-block col-md-12 p-0 shadow-sm" id="previewImage" src="" />
+                    </div>
+
+                    <div class="form-group col-md-12">
+                        <label class="btn btn-warning text-white rounded-0 shadow-sm">
+                            Browse <input type="file" name="file" id="file" onchange="readPreviewURL(this)" hidden>
+                        </label>
+                    </div>
+
+                </div>
+            </div>
+
+
+            <div class="form-group">
+                <br/>
+                <div class="col-md-10">
+                    <button type="submit" class="btn btn-warning hover-shadow text-white rounded-0 mx-3" >
+                        Create<i class="fas fa-check d-inline-block ml-2"></i>
+                    </button>
+                </div>
+            </div>
+        </form>
+
+
+
+</div>
+<!-- /.container -->
+
+
+<!-- Footer -->
+<footer th:replace="fragments/fragments :: footer"></footer>
+
+<!-- JavaScript Imports -->
+<div th:replace="fragments/fragments :: js-imports"></div>
+
+
+</body>
+
+</html>
